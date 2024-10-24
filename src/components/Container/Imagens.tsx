@@ -1,17 +1,25 @@
 import { useState, useEffect } from 'react';
 import { Ancora, Autor, ButtonLink, ButtonsCategories, Categories, ContainerButtons, Picture, PictureContainer, Title } from './images';
 
+// Definindo uma interface para a imagem
+interface Image {
+    id: string;
+    author: string;
+    download_url: string;
+    url: string;
+    category: string; // O tipo "category" pode ser adicionado aqui
+}
+
 const Imagens = () => {
-    const [images, setImages] = useState<{ id: string; author: string; download_url: string; url: string; category: string }[]>([]);
+    const [images, setImages] = useState<Image[]>([]);
     const [loading, setLoading] = useState(true);
     const [category, setCategory] = useState('all'); // Estado para a categoria selecionada
 
-
     // Função simulada para adicionar uma categoria a cada imagem
-    const addCategoriesToImages = (data: unknown[]) => {
+    const addCategoriesToImages = (data: Image[]) => {
         // Categorias simuladas
         const categories = ['nature', 'tech', 'people'];
-        return data.map((image: unknown) => ({
+        return data.map((image) => ({
             ...image,
             category: categories[Math.floor(Math.random() * categories.length)] // Adiciona uma categoria aleatória
         }));
@@ -20,7 +28,7 @@ const Imagens = () => {
     const fetchImages = async () => {
         try {
             const response = await fetch('https://picsum.photos/v2/list');
-            const data = await response.json();
+            const data: Image[] = await response.json(); // Tipando o retorno da requisição
             const categorizedData = addCategoriesToImages(data); // Adiciona categorias
             setImages(categorizedData); // Armazena o array completo de objetos de imagem
             setLoading(false);
