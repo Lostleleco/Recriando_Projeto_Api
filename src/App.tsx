@@ -1,15 +1,17 @@
 
 import GlobalStyles from './Global'
-import Images from './components/Images'
+import Imagens from './components/Container/Imagens'
+import Footer from './components/Footer/footer'
 
 function App() {
 
 
   return (
     <>
-      
+
       <GlobalStyles />
-      <Images />
+      <Imagens />
+      <Footer />
     </>
   )
 }
